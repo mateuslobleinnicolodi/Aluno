@@ -1,8 +1,15 @@
 package controlador;
+
 import dao.AlunoDao;
 import javax.swing.JOptionPane;
 import modelo.Aluno;
 import tela.manutencao.Manutencao_Aluno;
+
+import java.util.List;
+
+import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ControladorAluno {
 
@@ -48,4 +55,24 @@ public class ControladorAluno {
         }
     }
     
+    public static void atualizarTabela(JTable tabela) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        //definindo o cabeçalho da tabela
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nome");
+        modelo.addColumn("sobrenome");
+        modelo.addColumn("sexo");
+        List<Aluno> resultados = AlunoDao.consultar();
+        for (Aluno objeto : resultados) {
+            Vector linha = new Vector();
+            
+            //definindo o conteúdo da tabela
+            linha.add(objeto.getCodigo());
+            linha.add(objeto.getNome());
+            linha.add(objeto.getSobrenome());
+            linha.add(objeto.getSexo());
+            modelo.addRow(linha); //adicionando a linha na tabela
+        }
+        tabela.setModel(modelo);
+    }
 }
